@@ -17,21 +17,9 @@ def go(x,y,z,r,p,yaw,time):
       i = i + 1
       rate.sleep()
 
-def takeoff_callback(msg): 
-  # Drone takeoff
-  go(0,0,2.4,0,0,0,3)
-  # Stop
-  go(0,0,0,0,0,0,1)
-  
-def land_callback(msg): 
-  # Drone land
-  go(0,0,-2.4,0,0,0,30)
-  # Stop
-  go(0,0,0,0,0,0,1)
-
 def start_flight_callback(msg): 
   
-  # Drone takeoff
+  # Takeoff
   go(0,0,2.4,0,0,0,3)
   
   # Trayectoria cuadrada
@@ -44,6 +32,8 @@ def start_flight_callback(msg):
   
   # Espiral
   go(0,2.45,0.5,0,0,0.35,30)
+  # Land
+  go(0,0,-2,0,0,0,30)
   # Stop
   go(0,0,0,0,0,0,1)
   
@@ -51,8 +41,6 @@ def start_flight_callback(msg):
 rospy.init_node('mission_control')
 rate = rospy.Rate(1)
 
-takeoff_sub = rospy.Subscriber('/takeoff', Empty, takeoff_callback)
-land_sub = rospy.Subscriber('/land', Empty, land_callback)
 cmd_vel_pub = rospy.Publisher('/cmd_vel', Twist, queue_size=1)
 start_flight = rospy.Subscriber('/start_flight', Empty, start_flight_callback)
 

@@ -69,38 +69,38 @@ def beacon_publisher():
 
         # Publish the becaon location with respect to world frame
         broadcaster = tf2_ros.StaticTransformBroadcaster()
-        static_transformStamped = geometry_msgs.msg.TransformStamped()
-        static_transformStamped.header.stamp = rospy.Time.now()
-        static_transformStamped.header.frame_id = "world"
-        static_transformStamped.child_frame_id = beacon_name 
-        static_transformStamped.transform.translation.x = beacon_positions[beacon_name][0]
-        static_transformStamped.transform.translation.y = beacon_positions[beacon_name][1]
-        static_transformStamped.transform.translation.z = beacon_positions[beacon_name][2]
+        tf_msg_1 = geometry_msgs.msg.TransformStamped()
+        tf_msg_1.header.stamp = rospy.Time.now()
+        tf_msg_1.header.frame_id = "world"
+        tf_msg_1.child_frame_id = beacon_name 
+        tf_msg_1.transform.translation.x = beacon_positions[beacon_name][0]
+        tf_msg_1.transform.translation.y = beacon_positions[beacon_name][1]
+        tf_msg_1.transform.translation.z = beacon_positions[beacon_name][2]
 
-        static_transformStamped.transform.rotation.x = 0
-        static_transformStamped.transform.rotation.y = 0
-        static_transformStamped.transform.rotation.z = 0
-        static_transformStamped.transform.rotation.w = 1
+        tf_msg_1.transform.rotation.x = 0
+        tf_msg_1.transform.rotation.y = 0
+        tf_msg_1.transform.rotation.z = 0
+        tf_msg_1.transform.rotation.w = 1
 
-        broadcaster.sendTransform(static_transformStamped)
+        broadcaster.sendTransform(tf_msg_1)
         
         
         # Publish the becaon location with respect to world frame
         broadcaster = tf2_ros.StaticTransformBroadcaster()
-        beacon_mesurment = geometry_msgs.msg.TransformStamped()
-        beacon_mesurment.header.stamp = rospy.Time.now()
-        beacon_mesurment.header.frame_id = "world"
-        beacon_mesurment.child_frame_id = beacon_name + "_measurement"
-        beacon_mesurment.transform.translation.x = beacon_positions[beacon_name][0] +distance.pose.position.x
-        beacon_mesurment.transform.translation.y = beacon_positions[beacon_name][1] +distance.pose.position.y
-        beacon_mesurment.transform.translation.z = beacon_positions[beacon_name][2] +distance.pose.position.z
+        tf_msg_2 = geometry_msgs.msg.TransformStamped()
+        tf_msg_2.header.stamp = rospy.Time.now()
+        tf_msg_2.header.frame_id = "world"
+        tf_msg_2.child_frame_id = beacon_name + "_measurement"
+        tf_msg_2.transform.translation.x = beacon_positions[beacon_name][0] +distance.pose.position.x
+        tf_msg_2.transform.translation.y = beacon_positions[beacon_name][1] +distance.pose.position.y
+        tf_msg_2.transform.translation.z = beacon_positions[beacon_name][2] +distance.pose.position.z
 
-        beacon_mesurment.transform.rotation.x = 0
-        beacon_mesurment.transform.rotation.y = 0
-        beacon_mesurment.transform.rotation.z = 0
-        beacon_mesurment.transform.rotation.w = 1
+        tf_msg_2.transform.rotation.x = 0
+        tf_msg_2.transform.rotation.y = 0
+        tf_msg_2.transform.rotation.z = 0
+        tf_msg_2.transform.rotation.w = 1
 
-        broadcaster.sendTransform(beacon_mesurment)
+        broadcaster.sendTransform(tf_msg_2)
         
     
 
@@ -112,7 +112,6 @@ beacon_pub = {}
 for beacon_name in beacon_positions:
     beacon_pub[beacon_name] = rospy.Publisher(beacon_name, PoseStamped, queue_size=1)
 
-# beacon_pub = rospy.Publisher('/beacon_msg', PoseStamped, queue_size=1)
 ground_truth = rospy.Subscriber('/ground_truth_to_tf/pose', PoseStamped, ground_truth_callback)
 
 listener = tf.TransformListener()
