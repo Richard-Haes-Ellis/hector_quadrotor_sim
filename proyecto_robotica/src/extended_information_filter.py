@@ -23,6 +23,7 @@ beacon_positions = {"beacon1": [ 10.0, 10.0,  10.0],
 beacon_msgs = {}
 
 drone_ground_truth_pose = PoseStamped()
+ground_truth_sample = PoseStamped()
 
 
 T = 1
@@ -150,15 +151,14 @@ def extended_information_filter():
 	return  Mu_1
 
 def beacon_callback(msg):
-	global beacon_msgs
+	global beacon_msgs, ground_truth_sample
 	beacon_msgs[msg.header.frame_id] = msg
+	ground_truth_sample = drone_ground_truth_pose
 
 def localization_publisher():
 
 	# FILTER  	
 	Xk = extended_information_filter()
- 
-	print("Xk: ", Xk)
  	
 	drone_pose = PoseStamped()
 	drone_pose.header.frame_id = "drone_frame"
@@ -185,7 +185,7 @@ def localization_publisher():
 	mydataDim.label = "results"
 	mydataDim.stride = 1
 	msg.layout.dim.append(mydataDim)
-	msg.data = [Xk[0], Xk[1], Xk[2], drone_ground_truth_pose.pose.position.x, drone_ground_truth_pose.pose.position.y, drone_ground_truth_pose.pose.position.z]
+	msg.data = [Xk[0], Xk[1], Xk[2], ground_truth_sample.pose.position.x, ground_truth_sample.pose.position.y, ground_truth_sample.pose.position.z]
 	results_publ.publish(msg)
 
 def ground_truth_callback(msg):
