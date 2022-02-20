@@ -1,4 +1,4 @@
-opengl('save','software')
+% opengl('save','software')
 clear all;
 clc;
 rosshutdown
@@ -20,7 +20,7 @@ msg = rosmessage(start_flight_pub);
 
 send(start_flight_pub,msg);
 
-for i=1:1:80
+for i=1:1:100
     results = receive(results_sub,2);
     RESULT_X = [RESULT_X; results.Data'];
 end;
