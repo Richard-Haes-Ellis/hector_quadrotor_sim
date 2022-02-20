@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="proyecto_robotica" type="mission_control.py" name="mission_control" output="screen">
+    </node>
+</launch>

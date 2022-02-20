@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="proyecto_robotica" type="extended_information_filter.py" name="extended_information_filter" output="screen">
+        
+    </node>
+</launch>

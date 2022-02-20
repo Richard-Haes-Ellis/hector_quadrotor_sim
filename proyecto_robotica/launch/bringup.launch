@@ -1,0 +1,6 @@
+<launch>
+    <include file="$(find hector_quadrotor_demo)/launch/robot_simulation_test.launch" />
+    <node pkg="proyecto_robotica" type="beacon_sim.py" name="beacon_sim" output="screen"> </node>
+    <node pkg="proyecto_robotica" type="mission_control.py" name="mission_control" output="screen"></node>
+    <node pkg="proyecto_robotica" type="extended_information_filter.py" name="extended_information_filter" output="screen"> </node>
+</launch>
